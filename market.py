@@ -11,6 +11,18 @@ logger = logging.getLogger(__file__)
 
 
 def get_product_list(page, campaign_id, access_token):
+    """Получить список товаров магазина Яндекс Маркет.
+
+    Аргументы:
+        page (str): пустая строка для API-запроса, т.к. нужен список всех товаров.
+        campaign_id (str): идентификатор продавца в Яндекс Маркет из окружения.
+        access_token (str): токен для API Яндекс Маркет из окружения.
+
+    Возвращает:
+        Декодированный ответ от API со списком товаров магазина Яндекс Маркет.
+        В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
+        и сработает метод .raise_for_status().
+    """
     endpoint_url = "https://api.partner.market.yandex.ru/"
     headers = {
         "Content-Type": "application/json",
@@ -30,6 +42,21 @@ def get_product_list(page, campaign_id, access_token):
 
 
 def update_stocks(stocks, campaign_id, access_token):
+    """Обновить остатки товаров в Яндекс Маркет.
+
+    Обновляет информацию о наличии товара в Яндекс Маркет на основании сформированных
+    данных об остатках у поставщика.
+
+    Аргументы:
+        stocks (list): список с остатками из create_stocks().
+        campaign_id (str): идентификатор продавца в Яндекс Маркет из окружения.
+        access_token (str): токен для API Яндекс Маркет из окружения.
+
+    Возвращает:
+        Декодированный ответ от API.
+        В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
+        и сработает метод .raise_for_status().
+    """
     endpoint_url = "https://api.partner.market.yandex.ru/"
     headers = {
         "Content-Type": "application/json",
@@ -46,6 +73,21 @@ def update_stocks(stocks, campaign_id, access_token):
 
 
 def update_price(prices, campaign_id, access_token):
+    """Обновить цены товаров в Яндекс Маркет.
+
+    Отправляет API-запрос в Яндекс Маркет для обновления цен
+    на продаваемые товары.
+
+    Аргументы:
+        prices (list): список с ценами товаров, который отправляем.
+        campaign_id (str): идентификатор продавца в Яндекс Маркет из окружения.
+        access_token (str): токен для API Яндекс Маркет из окружения.
+
+    Возвращает:
+        Декодированный ответ от API.
+        В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
+        и сработает метод .raise_for_status().
+    """
     endpoint_url = "https://api.partner.market.yandex.ru/"
     headers = {
         "Content-Type": "application/json",
@@ -62,7 +104,15 @@ def update_price(prices, campaign_id, access_token):
 
 
 def get_offer_ids(campaign_id, market_token):
-    """Получить артикулы товаров Яндекс маркета"""
+    """Получить артикулы товаров магазина Яндекс Маркет.
+
+    Аргументы:
+        сampaign_id (str): идентификатор продавца в Яндекс Маркет из окружения.
+        market_token (str): токен для API Яндекс Маркет из окружения.
+
+    Возвращает:
+        offer_ids (list): список артикулов товаров магазина Яндекс Маркет.
+    """
     page = ""
     product_list = []
     while True:
@@ -78,6 +128,20 @@ def get_offer_ids(campaign_id, market_token):
 
 
 def create_stocks(watch_remnants, offer_ids, warehouse_id):
+    """Сформировать остатки.
+
+    Формирует остатки товаров на основании данных от поставщика.
+
+    Аргументы:
+        watch_remnants (list): Список часов, доступных для оптовой закупки.
+            Получен из download_stock().
+        offer_ids (list): список артикулов товаров магазина Яндекс Маркет.
+        warehouse_id (str): идентификатор склада магазина продавца 
+            в Яндекс Маркет из окружения.
+
+    Возвращает:
+        stocks (list): список с информацией об остатках товаров.ľ
+    """
     # Уберем то, что не загружено в market
     stocks = list()
     date = str(datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z")
@@ -123,6 +187,19 @@ def create_stocks(watch_remnants, offer_ids, warehouse_id):
 
 
 def create_prices(watch_remnants, offer_ids):
+    """Создать список с ценами продажи.
+
+    Создает список с ценами продажи часов. В качестве
+    цены продажи берется розничная цена товара от поставщика.
+
+    Аргументы:
+        watch_remnants (list): Список часов, доступных для оптовой закупки.
+            Получен из download_stock().
+        offer_ids (list): список артикулов товаров магазина Яндекс Маркет.
+
+    Возвращает:
+        prices (list): список с розничными ценами на часы. 
+    """
     prices = []
     for watch in watch_remnants:
         if str(watch.get("Код")) in offer_ids:
@@ -162,6 +239,15 @@ async def upload_stocks(watch_remnants, campaign_id, market_token, warehouse_id)
 
 
 def main():
+    """Запуск функций и обработка исключений.
+
+    Запускает необходимые функции для обновления остатков товаров в
+    Яндекс Маркете и обновления цен на товары. Информация о том, что такое
+    FBS, DBS: (https://yandex.ru/support/marketplace/ru/introduction/models).
+
+    Исключения:
+        Обрабатывает 3 типа исключений.
+    """
     env = Env()
     market_token = env.str("MARKET_TOKEN")
     campaign_fbs_id = env.str("FBS_ID")
