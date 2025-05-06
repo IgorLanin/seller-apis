@@ -20,7 +20,7 @@ def get_product_list(last_id, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        response_object - ответ от API-запроса со списком товаров магазина Озон.
+        Декодированный ответ от API со списком товаров магазина Озон.
         В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -50,7 +50,7 @@ def get_offer_ids(client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        offer_ids (list) - список артикулов товаров магазина Озон.
+        offer_ids (list): список артикулов товаров магазина Озон.
     """
     last_id = ""
     product_list = []
@@ -79,7 +79,7 @@ def update_price(prices: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        Ответ от сервера в json - формате.
+        Ответ от API в декодированном формате.
         В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -106,7 +106,7 @@ def update_stocks(stocks: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        Ответ от сервера в json - формате.
+        Ответ от API в декодированном формате.
         В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -129,7 +129,7 @@ def download_stock():
     розничная цена.
 
     Возвращает:
-        watch_remnants - список часов, доступных для оптовой закупки.
+        watch_remnants (list): список часов, доступных для оптовой закупки.
     """
     # Скачать остатки с сайта
     casio_url = "https://timeworld.ru/upload/files/ostatki.zip"
@@ -161,7 +161,7 @@ def create_stocks(watch_remnants, offer_ids):
         offer_ids (list): список артикулов товаров магазина Озон.
 
     Возвращает:
-        stocks - список с информацией об остатках товаров.
+        stocks (list): список с информацией об остатках товаров.
     """
     # Уберем то, что не загружено в seller
     stocks = []
@@ -194,7 +194,7 @@ def create_prices(watch_remnants, offer_ids):
         offer_ids (list): список артикулов товаров магазина Озон.
 
     Возвращает:
-        prices - список с розничными ценами на часы. 
+        prices (list): список с розничными ценами на часы. 
     """
     prices = []
     for watch in watch_remnants:
