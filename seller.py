@@ -21,6 +21,8 @@ def get_product_list(last_id, client_id, seller_token):
 
     Возвращает:
         response_object - ответ от API-запроса со списком товаров магазина Озон.
+        В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
+        и сработает метод .raise_for_status().
     """
     url = "https://api-seller.ozon.ru/v2/product/list"
     headers = {
@@ -49,7 +51,6 @@ def get_offer_ids(client_id, seller_token):
 
     Возвращает:
         offer_ids (list) - список артикулов товаров магазина Озон.
-
     """
     last_id = ""
     product_list = []
@@ -79,7 +80,8 @@ def update_price(prices: list, client_id, seller_token):
 
     Возвращает:
         Ответ от сервера в json - формате.
-
+        В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
+        и сработает метод .raise_for_status().
     """
     url = "https://api-seller.ozon.ru/v1/product/import/prices"
     headers = {
@@ -105,6 +107,8 @@ def update_stocks(stocks: list, client_id, seller_token):
 
     Возвращает:
         Ответ от сервера в json - формате.
+        В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
+        и сработает метод .raise_for_status().
     """
     url = "https://api-seller.ozon.ru/v1/product/import/stocks"
     headers = {
@@ -190,7 +194,7 @@ def create_prices(watch_remnants, offer_ids):
         offer_ids (list): список артикулов товаров магазина Озон.
 
     Возвращает:
-        prices - список с розничными ценами на часы.
+        prices - список с розничными ценами на часы. 
     """
     prices = []
     for watch in watch_remnants:
@@ -217,13 +221,20 @@ def price_conversion(price: str) -> str:
 
     Пример:
         5'990.00 руб. -> 5990.
-
     """
     return re.sub("[^0-9]", "", price.split(".")[0])
 
 
 def divide(lst: list, n: int):
-    """Разделить список lst на части по n элементов."""
+    """Разделить список lst на части по n элементов.
+
+    Аргументы:
+        lst (list): список, который нужно разделить.
+        n (int): число элементов в одной части от разделенного списка.
+
+    Озон при создании, обновлении товара, обновлении остатков
+    позволяет передавать в одном запросе до 100 товаров.
+    """
     for i in range(0, len(lst), n):
         yield lst[i : i + n]
 
