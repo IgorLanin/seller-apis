@@ -20,7 +20,9 @@ def get_product_list(last_id, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        Декодированный ответ от API со списком товаров магазина Озон.
+        response_object.get("result") (list): декодированный json-ответ API со списком товаров магазина Озон.
+
+    Raises:
         В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -79,7 +81,9 @@ def update_price(prices: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        Ответ от API в декодированном формате.
+        response.json() (list): декодированный json-ответ API.
+
+    Raises:
         В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -106,7 +110,9 @@ def update_stocks(stocks: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        Ответ от API в декодированном формате.
+        response.json() (list): декодированный json-ответ API.
+
+    Raises:
         В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
