@@ -16,15 +16,13 @@ def get_product_list(page, campaign_id, access_token):
     Аргументы:
         page (str): пустая строка для API-запроса, т.к. нужен список всех товаров.
         campaign_id (str): идентификатор продавца в Яндекс Маркет из окружения.
-        access_token (str): токен для API Яндекс Маркет из окружения.
+        access_token (str): токен для API Яндекс Маркет из окружения..
 
     Возвращает:
-        response_object.get("result") (list):
-            декодированный json-ответ API со списком товаров магазина Яндекс Маркет.
+        list: список товаров магазина Яндекс Маркет.
 
-    Raises:
-        В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
-        и сработает метод .raise_for_status().
+    Исключения:
+        requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
     """
     endpoint_url = "https://api.partner.market.yandex.ru/"
     headers = {
@@ -56,11 +54,10 @@ def update_stocks(stocks, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        response_object (dict): декодированный json-ответ API.
+        dict: ответ от сервера в формате JSON.
 
-    Raises:
-        В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
-        и сработает метод .raise_for_status().
+    Исключения:
+        requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
     """
     endpoint_url = "https://api.partner.market.yandex.ru/"
     headers = {
@@ -89,11 +86,10 @@ def update_price(prices, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        response_object (dict): декодированный json-ответ API.
+        dict: ответ от сервера в формате JSON.
 
-    Raises:
-        В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
-        и сработает метод .raise_for_status().
+    Исключения:
+        requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
     """
     endpoint_url = "https://api.partner.market.yandex.ru/"
     headers = {
@@ -118,7 +114,7 @@ def get_offer_ids(campaign_id, market_token):
         market_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        offer_ids (list): список артикулов товаров магазина Яндекс Маркет.
+        list: список артикулов товаров магазина Яндекс Маркет.
     """
     page = ""
     product_list = []
@@ -147,7 +143,7 @@ def create_stocks(watch_remnants, offer_ids, warehouse_id):
             в Яндекс Маркет из окружения.
 
     Возвращает:
-        stocks (list): список с информацией об остатках товаров.ľ
+        list: список с информацией об остатках товаров.
     """
     # Уберем то, что не загружено в market
     stocks = list()
@@ -205,7 +201,7 @@ def create_prices(watch_remnants, offer_ids):
         offer_ids (list): список артикулов товаров магазина Яндекс Маркет.
 
     Возвращает:
-        prices (list): список с розничными ценами на часы. 
+        list: список с розничными ценами на часы.
     """
     prices = []
     for watch in watch_remnants:
