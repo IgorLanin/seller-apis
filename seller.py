@@ -20,11 +20,10 @@ def get_product_list(last_id, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        response_object.get("result") (list): декодированный json-ответ API со списком товаров магазина Озон.
+        list: список товаров магазина Озон.
 
-    Raises:
-        В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
-        и сработает метод .raise_for_status().
+    Исключения:
+        requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
     """
     url = "https://api-seller.ozon.ru/v2/product/list"
     headers = {
@@ -52,7 +51,7 @@ def get_offer_ids(client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        offer_ids (list): список артикулов товаров магазина Озон.
+        list: список артикулов товаров магазина Озон.
     """
     last_id = ""
     product_list = []
@@ -81,11 +80,10 @@ def update_price(prices: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        response.json() (list): декодированный json-ответ API.
+        list: ответ от сервера в формате JSON.
 
-    Raises:
-        В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
-        и сработает метод .raise_for_status().
+    Исключения:
+        requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
     """
     url = "https://api-seller.ozon.ru/v1/product/import/prices"
     headers = {
@@ -110,11 +108,10 @@ def update_stocks(stocks: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        response.json() (list): декодированный json-ответ API.
+        list: ответ от сервера в формате JSON.
 
-    Raises:
-        В случае некорректного исполнения, Озон вернет статус ответа, отличный от 200,
-        и сработает метод .raise_for_status().
+    Исключения:
+        requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
     """
     url = "https://api-seller.ozon.ru/v1/product/import/stocks"
     headers = {
@@ -135,7 +132,7 @@ def download_stock():
     розничная цена.
 
     Возвращает:
-        watch_remnants (list): список часов, доступных для оптовой закупки.
+        list: список часов, доступных для оптовой закупки.
     """
     # Скачать остатки с сайта
     casio_url = "https://timeworld.ru/upload/files/ostatki.zip"
@@ -167,7 +164,7 @@ def create_stocks(watch_remnants, offer_ids):
         offer_ids (list): список артикулов товаров магазина Озон.
 
     Возвращает:
-        stocks (list): список с информацией об остатках товаров.
+        list: список с информацией об остатках товаров.
     """
     # Уберем то, что не загружено в seller
     stocks = []
@@ -200,7 +197,7 @@ def create_prices(watch_remnants, offer_ids):
         offer_ids (list): список артикулов товаров магазина Озон.
 
     Возвращает:
-        prices (list): список с розничными ценами на часы. 
+        list: список с розничными ценами на часы. 
     """
     prices = []
     for watch in watch_remnants:
