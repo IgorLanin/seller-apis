@@ -19,7 +19,10 @@ def get_product_list(page, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        Декодированный ответ от API со списком товаров магазина Яндекс Маркет.
+        response_object.get("result") (list):
+            декодированный json-ответ API со списком товаров магазина Яндекс Маркет.
+
+    Raises:
         В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -53,7 +56,9 @@ def update_stocks(stocks, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        Декодированный ответ от API.
+        response_object (dict): декодированный json-ответ API.
+
+    Raises:
         В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
@@ -84,7 +89,9 @@ def update_price(prices, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        Декодированный ответ от API.
+        response_object (dict): декодированный json-ответ API.
+
+    Raises:
         В случае некорректного исполнения, Яндекс Маркет вернет статус ответа, отличный от 200,
         и сработает метод .raise_for_status().
     """
