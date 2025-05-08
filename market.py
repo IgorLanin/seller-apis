@@ -54,7 +54,7 @@ def update_stocks(stocks, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        dict: ответ от сервера в формате JSON.
+        dict: ответ от сервера.
 
     Исключения:
         requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
@@ -86,7 +86,7 @@ def update_price(prices, campaign_id, access_token):
         access_token (str): токен для API Яндекс Маркет из окружения.
 
     Возвращает:
-        dict: ответ от сервера в формате JSON.
+        dict: ответ от сервера.
 
     Исключения:
         requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
