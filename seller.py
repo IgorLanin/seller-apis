@@ -80,7 +80,7 @@ def update_price(prices: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        list: ответ от сервера в формате JSON.
+        list: ответ от сервера.
 
     Исключения:
         requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
@@ -108,7 +108,7 @@ def update_stocks(stocks: list, client_id, seller_token):
         seller_token (str): токен для API Озон из окружения.
 
     Возвращает:
-        list: ответ от сервера в формате JSON.
+        list: ответ от сервера.
 
     Исключения:
         requests.exceptions.HTTPError: если HTTP-ответ содержит статус-код ошибки (4хх или 5хх).
